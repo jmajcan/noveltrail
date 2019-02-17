@@ -1,0 +1,4 @@
+<resources>
+    <string name="title_activity_welcome">Welcome</string>
+    <string name="welcome_text">Welcome!</string>
+</resources>
