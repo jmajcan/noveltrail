@@ -16,7 +16,7 @@ NovelTrail wil have the following fuctionality (hopefull :P)
   - amount of pages per day/week/month goals
   - amount of books per year
 
--Keep track of:
+- Keep track of:
   - previously read books
   - favorite authors/genres
   - books the user wants to read 
