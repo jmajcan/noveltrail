@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:gravity="center_horizontal" android:background="#ffffff"
+    android:orientation="vertical" android:padding="10dp">
+
+    <TextView
+        android:id="@+id/titleLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Title:" />
+
+    <EditText android:id="@+id/input_title" android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/authorLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Author:" />
+
+    <EditText android:id="@+id/input_author" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/pageCountLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Page Count" />
+
+    <EditText android:id="@+id/input_page_count" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -1,6 +1,9 @@
 package com.example.cs2063project;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -8,14 +11,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,10 @@ public class MyBooksActivity extends AppCompatActivity
 
         private List<Book> books;
         private RecyclerView rv;
+        private Context context;
+        private String titleText = "";
+        private String authorText = "";
+        private String pageCountText = "";
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +63,39 @@ public class MyBooksActivity extends AppCompatActivity
             addBookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    books.add(new Book("Harry Potter", "JK Rowling", "512"));
-                    initializeAdapter();
+                    AlertDialog.Builder newBookBuilder = new AlertDialog.Builder(MyBooksActivity.this);
+
+                    View newBookDialog = getLayoutInflater().inflate(R.layout.new_book_dialog, null);
+                    final EditText inputTitle = (EditText) newBookDialog.findViewById(R.id.input_title);
+                    final EditText inputAuthor = (EditText) newBookDialog.findViewById(R.id.input_author);
+                    final EditText inputPageCount = (EditText) newBookDialog.findViewById(R.id.input_page_count);
+
+                    inputTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+                    inputAuthor.setInputType(InputType.TYPE_CLASS_TEXT);
+                    inputPageCount.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                    newBookBuilder.setView(newBookDialog);
+                    newBookBuilder.setCancelable(true);
+                    // Set up the buttons
+                    newBookBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            titleText = inputTitle.getText().toString();
+                            authorText = inputAuthor.getText().toString();
+                            pageCountText = inputPageCount.getText().toString();
+                            books.add(new Book(titleText, authorText, pageCountText));
+                            initializeAdapter();
+                        }
+                    });
+                    newBookBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    AlertDialog newBookAlert = newBookBuilder.create();
+                    newBookAlert.show();
                 }
             });
         }
