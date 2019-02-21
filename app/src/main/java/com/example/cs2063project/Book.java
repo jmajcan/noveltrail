@@ -1,6 +1,8 @@
 package com.example.cs2063project;
 
-class Book {
+import java.io.Serializable;
+
+class Book implements Serializable {
     String title;
     String author;
     String pageCount;

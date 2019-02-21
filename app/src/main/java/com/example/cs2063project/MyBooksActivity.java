@@ -1,5 +1,6 @@
 package com.example.cs2063project;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +66,20 @@ public class MyBooksActivity extends AppCompatActivity
             rv.setHasFixedSize(true);
 
             Button addBookButton = (Button) findViewById(R.id.add_book);
+
+            FileInputStream fileInputStream;
+            ObjectInputStream objectInputStream;
+            String filename = "bookStorage";
             books = new ArrayList<>();
+            try {
+                fileInputStream = openFileInput(filename);
+                objectInputStream = new ObjectInputStream(fileInputStream);
+                books = (List) objectInputStream.readObject();
+                objectInputStream.close();
+                initializeAdapter();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             addBookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,6 +104,18 @@ public class MyBooksActivity extends AppCompatActivity
                             authorText = inputAuthor.getText().toString();
                             pageCountText = inputPageCount.getText().toString();
                             books.add(new Book(titleText, authorText, pageCountText));
+                            String filename = "bookStorage";
+                            FileOutputStream fileOutputStream;
+                            ObjectOutputStream objectOutputStream;
+
+                            try {
+                                fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                                objectOutputStream.writeObject(books);
+                                objectOutputStream.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             initializeAdapter();
                         }
                     });
