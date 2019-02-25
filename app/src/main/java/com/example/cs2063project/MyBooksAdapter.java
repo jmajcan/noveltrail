@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -43,6 +44,13 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
     public BookViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
         BookViewHolder bvh = new BookViewHolder(v);
+        Button button = (Button) viewGroup.findViewById(R.id.delete_book);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return bvh;
     }
 

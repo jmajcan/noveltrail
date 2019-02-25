@@ -39,7 +39,6 @@ public class MyBooksActivity extends AppCompatActivity
 
         private List<Book> books;
         private RecyclerView rv;
-        private Context context;
         private String titleText = "";
         private String authorText = "";
         private String pageCountText = "";
