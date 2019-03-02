@@ -175,11 +175,7 @@ public class MyBooksActivity extends AppCompatActivity
             int id = item.getItemId();
 
             Intent intent;
-            if (id == R.id.nav_welcome) {
-                // Handle the camera action
-                intent = new Intent(this,WelcomeActivity.class);
-                startActivity(intent);
-            } else if (id == R.id.nav_my_books) {
+            if (id == R.id.nav_my_books) {
                 intent = new Intent(this,MyBooksActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_profile) {
