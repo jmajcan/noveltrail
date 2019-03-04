@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/book_title"
             android:layout_alignParentTop="true"
-            android:textSize="30sp"
+            android:textSize="25sp"
             />
 
         <TextView
@@ -34,6 +34,14 @@
             android:layout_below="@id/book_title"
             android:layout_alignParentEnd="true"
             />
+
+        <Button style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/delete_book"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/book_page_count"
+            android:text="X" />
 
     </RelativeLayout>
 

@@ -1,14 +1,10 @@
 package com.example.cs2063project;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,11 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -39,7 +34,6 @@ public class MyBooksActivity extends AppCompatActivity
 
         private List<Book> books;
         private RecyclerView rv;
-        private Context context;
         private String titleText = "";
         private String authorText = "";
         private String pageCountText = "";
@@ -67,22 +61,11 @@ public class MyBooksActivity extends AppCompatActivity
 
             Button addBookButton = (Button) findViewById(R.id.add_book);
 
-            FileInputStream fileInputStream;
-            ObjectInputStream objectInputStream;
-            String filename = "bookStorage";
-            books = new ArrayList<>();
-            try {
-                fileInputStream = openFileInput(filename);
-                objectInputStream = new ObjectInputStream(fileInputStream);
-                books = (List) objectInputStream.readObject();
-                objectInputStream.close();
-                initializeAdapter();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            books = loadData();
+
             addBookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     AlertDialog.Builder newBookBuilder = new AlertDialog.Builder(MyBooksActivity.this);
 
                     View newBookDialog = getLayoutInflater().inflate(R.layout.new_book_dialog, null);
@@ -103,20 +86,21 @@ public class MyBooksActivity extends AppCompatActivity
                             titleText = inputTitle.getText().toString();
                             authorText = inputAuthor.getText().toString();
                             pageCountText = inputPageCount.getText().toString();
-                            books.add(new Book(titleText, authorText, pageCountText));
-                            String filename = "bookStorage";
-                            FileOutputStream fileOutputStream;
-                            ObjectOutputStream objectOutputStream;
-
-                            try {
-                                fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                                objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                                objectOutputStream.writeObject(books);
-                                objectOutputStream.close();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            if(books.size() > 0){
+                                books.add(new Book(titleText, authorText, pageCountText, books.get(books.size()-1).id+1));
+                            }else{
+                                books.add(new Book(titleText, authorText, pageCountText, 0));
                             }
-                            initializeAdapter();
+
+                            saveData((ArrayList<Book>)books);
+
+                            try{
+                                rv.getAdapter().notifyItemInserted(books.size());
+                                rv.getAdapter().notifyItemRangeChanged(0, books.size());
+                                Toast.makeText(getApplicationContext(),"Book Added.",Toast.LENGTH_SHORT).show();
+                            }catch(NullPointerException e){
+                                Toast.makeText(getApplicationContext(),"Null pointer exception.",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                     newBookBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -132,8 +116,43 @@ public class MyBooksActivity extends AppCompatActivity
             });
         }
         private void initializeAdapter(){
-            MyBooksAdapter adapter = new MyBooksAdapter(books);
+            MyBooksAdapter adapter = new MyBooksAdapter(books, getApplicationContext());
             rv.setAdapter(adapter);
+        }
+
+        private void saveData(ArrayList<Book> books){
+            String filename = "bookStorage";
+            FileOutputStream fileOutputStream;
+            ObjectOutputStream objectOutputStream;
+
+            try {
+                fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(books);
+                objectOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private List<Book> loadData(){
+            FileInputStream fileInputStream;
+            ObjectInputStream objectInputStream;
+            String filename = "bookStorage";
+            books = new ArrayList<>();
+            initializeAdapter();
+            try {
+                fileInputStream = openFileInput(filename);
+                objectInputStream = new ObjectInputStream(fileInputStream);
+                books = (List) objectInputStream.readObject();
+                objectInputStream.close();
+                initializeAdapter();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ArrayList<>();
+            }
+
+            return books;
         }
 
         @Override
