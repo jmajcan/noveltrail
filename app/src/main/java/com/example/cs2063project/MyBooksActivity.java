@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,7 +26,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MyBooksActivity extends AppCompatActivity
@@ -37,6 +41,8 @@ public class MyBooksActivity extends AppCompatActivity
         private String titleText = "";
         private String authorText = "";
         private String pageCountText = "";
+        private Date startDate;
+        private Date endDate;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +78,15 @@ public class MyBooksActivity extends AppCompatActivity
                     final EditText inputTitle = (EditText) newBookDialog.findViewById(R.id.input_title);
                     final EditText inputAuthor = (EditText) newBookDialog.findViewById(R.id.input_author);
                     final EditText inputPageCount = (EditText) newBookDialog.findViewById(R.id.input_page_count);
+                    final CheckBox reading = (CheckBox) newBookDialog.findViewById(R.id.checkBox);
+                    final EditText inputStartDate = (EditText) newBookDialog.findViewById(R.id.input_start_date);
+                    final EditText inputEndDate = (EditText) newBookDialog.findViewById(R.id.input_end_date);
 
                     inputTitle.setInputType(InputType.TYPE_CLASS_TEXT);
                     inputAuthor.setInputType(InputType.TYPE_CLASS_TEXT);
                     inputPageCount.setInputType(InputType.TYPE_CLASS_TEXT);
+                    inputStartDate.setInputType(InputType.TYPE_CLASS_DATETIME);
+                    inputEndDate.setInputType(InputType.TYPE_CLASS_DATETIME);
 
                     newBookBuilder.setView(newBookDialog);
                     newBookBuilder.setCancelable(true);
@@ -86,10 +97,18 @@ public class MyBooksActivity extends AppCompatActivity
                             titleText = inputTitle.getText().toString();
                             authorText = inputAuthor.getText().toString();
                             pageCountText = inputPageCount.getText().toString();
+                            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                            try {
+                                startDate = (Date)formatter.parse(inputStartDate.getText().toString());
+                                endDate = (Date)formatter.parse(inputEndDate.getText().toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
                             if(books.size() > 0){
-                                books.add(new Book(titleText, authorText, pageCountText, books.get(books.size()-1).id+1));
+                                books.add(new Book(titleText, authorText, pageCountText, reading.isChecked(), startDate, endDate, books.get(books.size()-1).id+1));
                             }else{
-                                books.add(new Book(titleText, authorText, pageCountText, 0));
+                                books.add(new Book(titleText, authorText, pageCountText, reading.isChecked(), startDate, endDate, 0));
                             }
 
                             saveData((ArrayList<Book>)books);

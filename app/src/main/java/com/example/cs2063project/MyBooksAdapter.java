@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
+import android.text.format.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
@@ -25,6 +24,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
         TextView bookTitle;
         TextView bookAuthor;
         TextView bookPageCount;
+        TextView bookEndDate;
         Button deleteBookButton;
 
         public BookViewHolder(View v) {
@@ -33,6 +33,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
             bookTitle = (TextView)v.findViewById(R.id.book_title);
             bookAuthor = (TextView)v.findViewById(R.id.book_author);
             bookPageCount = (TextView)v.findViewById(R.id.book_page_count);
+            bookEndDate = (TextView)v.findViewById(R.id.book_end_date);
             deleteBookButton = (Button)v.findViewById(R.id.delete_book);
             deleteBookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +63,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
             cv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"Clicked",Toast.LENGTH_SHORT).show();
+                    displayBook(v, getAdapterPosition());
                 }
             });
         }
@@ -93,6 +94,8 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
         bookViewHolder.bookTitle.setText(books.get(i).title);
         bookViewHolder.bookAuthor.setText(books.get(i).author);
         bookViewHolder.bookPageCount.setText(books.get(i).pageCount);
+        CharSequence endDate = DateFormat.format("EEE MMM dd", books.get(i).endDate);
+        bookViewHolder.bookEndDate.setText(endDate);
     }
 
     public void removeAt(int position) {
@@ -116,5 +119,38 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
     @Override
     public int getItemCount() {
         return books.size();
+    }
+
+    public void displayBook(View v, int i){
+        AlertDialog.Builder newBookBuilder = new AlertDialog.Builder(v.getContext());
+
+        View bookViewDialog = LayoutInflater.from(v.getContext()).inflate(R.layout.book_view,null,false);
+        final TextView bookTitle = (TextView)bookViewDialog.findViewById(R.id.book_view_title);
+        final TextView bookAuthor = (TextView)bookViewDialog.findViewById(R.id.book_view_author);
+        final TextView bookPageCount = (TextView)bookViewDialog.findViewById(R.id.book_view_page_count);
+        final TextView bookStartDate = (TextView)bookViewDialog.findViewById(R.id.book_view_start_date);
+        final TextView bookEndDate = (TextView)bookViewDialog.findViewById(R.id.book_view_end_date);
+
+
+        CharSequence startDate = DateFormat.format("MM/dd/yy", books.get(i).startDate);
+        CharSequence endDate = DateFormat.format("MM/dd/yy", books.get(i).endDate);
+
+        bookTitle.setText("Title: " + books.get(i).title);
+        bookAuthor.setText("Author: " + books.get(i).author);
+        bookPageCount.setText("Page Count: " + books.get(i).pageCount);
+        bookStartDate.setText("Start Date: " + startDate);
+        bookEndDate.setText("End Date: " + endDate);
+
+        newBookBuilder.setView(bookViewDialog);
+        newBookBuilder.setCancelable(true);
+        // Set up the buttons
+        newBookBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog newBookAlert = newBookBuilder.create();
+        newBookAlert.show();
     }
 }
