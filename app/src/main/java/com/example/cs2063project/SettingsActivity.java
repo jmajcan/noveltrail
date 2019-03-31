@@ -133,6 +133,9 @@ public class SettingsActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             intent = new Intent(this,SettingsActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_data){
+            intent = new Intent(this,DataActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
