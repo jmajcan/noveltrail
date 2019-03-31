@@ -15,4 +15,27 @@
     <EditText android:id="@+id/input_page_count" android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Page Count"/>
+
+    <EditText
+        android:id="@+id/input_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Start: MM/DD/YY"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/input_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="End: MM/DD/YY"
+        android:inputType="date" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Currently Reading?" />
+
 </LinearLayout>
