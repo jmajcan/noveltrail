@@ -9,11 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.text.format.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookViewHolder> {
@@ -93,7 +97,7 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
     public void onBindViewHolder(BookViewHolder bookViewHolder, int i) {
         bookViewHolder.bookTitle.setText(books.get(i).title);
         bookViewHolder.bookAuthor.setText(books.get(i).author);
-        bookViewHolder.bookPageCount.setText(books.get(i).pageCount);
+        bookViewHolder.bookPageCount.setText(books.get(i).pagesRead + "/" + books.get(i).pageCount);
         CharSequence endDate = DateFormat.format("EEE MMM dd", books.get(i).endDate);
         bookViewHolder.bookEndDate.setText(endDate);
     }
@@ -130,6 +134,8 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
         final TextView bookPageCount = (TextView)bookViewDialog.findViewById(R.id.book_view_page_count);
         final TextView bookStartDate = (TextView)bookViewDialog.findViewById(R.id.book_view_start_date);
         final TextView bookEndDate = (TextView)bookViewDialog.findViewById(R.id.book_view_end_date);
+        final EditText bookPagesRead = (EditText)bookViewDialog.findViewById(R.id.book_view_pages_read);
+        final CheckBox isReading = (CheckBox)bookViewDialog.findViewById(R.id.book_view_currently_reading);
 
 
         CharSequence startDate = DateFormat.format("MM/dd/yy", books.get(i).startDate);
@@ -137,20 +143,50 @@ public class MyBooksAdapter extends RecyclerView.Adapter<MyBooksAdapter.BookView
 
         bookTitle.setText("Title: " + books.get(i).title);
         bookAuthor.setText("Author: " + books.get(i).author);
-        bookPageCount.setText("Page Count: " + books.get(i).pageCount);
+        bookPageCount.setText("Pages Read: " + books.get(i).pagesRead + "/" + books.get(i).pageCount);
         bookStartDate.setText("Start Date: " + startDate);
         bookEndDate.setText("End Date: " + endDate);
+        isReading.setChecked(books.get(i).isReading);
 
         newBookBuilder.setView(bookViewDialog);
         newBookBuilder.setCancelable(true);
+        final int index = i;
         // Set up the buttons
         newBookBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                try{
+                    int pagesRead = Integer.parseInt(bookPagesRead.getText().toString());
+                    if(pagesRead < 0){
+                        pagesRead = 0;
+                    }
+                    books.get(index).pagesRead = Integer.parseInt(books.get(index).pagesRead) + pagesRead + "";
+                    books.get(index).isReading = isReading.isChecked();
+                    Toast.makeText(context,"Book status updated!",Toast.LENGTH_SHORT).show();
+                    saveData((ArrayList<Book>)books);
+                    notifyDataSetChanged();
+                }catch(Exception e){
+                    Toast.makeText(context,"ERROR: You must enter a number above 0.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         AlertDialog newBookAlert = newBookBuilder.create();
         newBookAlert.show();
+    }
+
+    private void saveData(ArrayList<Book> books){
+        String filename = "bookStorage";
+        FileOutputStream fileOutputStream;
+        ObjectOutputStream objectOutputStream;
+
+        try {
+            fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(books);
+            objectOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

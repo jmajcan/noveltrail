@@ -106,9 +106,9 @@ public class MyBooksActivity extends AppCompatActivity
                             }
 
                             if(books.size() > 0){
-                                books.add(new Book(titleText, authorText, pageCountText, reading.isChecked(), startDate, endDate, books.get(books.size()-1).id+1));
+                                books.add(new Book(titleText, authorText, "0",pageCountText, reading.isChecked(), startDate, endDate, books.get(books.size()-1).id+1));
                             }else{
-                                books.add(new Book(titleText, authorText, pageCountText, reading.isChecked(), startDate, endDate, 0));
+                                books.add(new Book(titleText, authorText, "0", pageCountText, reading.isChecked(), startDate, endDate, 0));
                             }
 
                             saveData((ArrayList<Book>)books);

@@ -6,15 +6,17 @@ import java.util.Date;
 class Book implements Serializable {
     String title;
     String author;
+    String pagesRead;
     String pageCount;
     boolean isReading;
     Date startDate;
     Date endDate;
     long id;
 
-    Book(String title, String author, String pageCount, boolean isReading, Date startDate, Date endDate, long id) {
+    Book(String title, String author, String pagesRead, String pageCount, boolean isReading, Date startDate, Date endDate, long id) {
         this.title = title;
         this.author = author;
+        this.pagesRead = pagesRead;
         this.pageCount = pageCount;
         this.isReading = isReading;
         this.startDate = startDate;

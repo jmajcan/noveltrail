@@ -27,5 +27,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"/>
+    <EditText
+        android:hint="Pages read in last sitting"
+        android:id="@+id/book_view_pages_read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:id="@+id/book_view_currently_reading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Currently Reading?" />
 
 </LinearLayout>
