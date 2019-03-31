@@ -79,22 +79,6 @@ public class DataActivity extends AppCompatActivity
 
     }
 
-    public class LabelFormatter implements IAxisValueFormatter {
-        private final String[] mLabels;
-
-        public LabelFormatter(String[] labels) {
-            mLabels = labels;
-        }
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            return mLabels[(int) value];
-        }
-
-        @Override
-        public int getDecimalDigits() { return 1; }
-    }
-
     public BarDataSet chartBooks(){
         ArrayList<BarEntry> barEntry = new ArrayList<>() ;
 
@@ -251,6 +235,22 @@ public class DataActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class LabelFormatter implements IAxisValueFormatter {
+        private final String[] mLabels;
+
+        public LabelFormatter(String[] labels) {
+            mLabels = labels;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mLabels[(int) value];
+        }
+
+        @Override
+        public int getDecimalDigits() { return 1; }
     }
 
 }
