@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent_temp">#1BAD69</color>
+    <color name="colorPrimary_temp">#1BAD69</color>
+    <color name="main_transparent">#5A1BAD69</color>
 </resources>

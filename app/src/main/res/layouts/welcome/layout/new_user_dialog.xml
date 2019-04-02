@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:gravity="center_horizontal" android:background="#ffffff"
+    android:orientation="vertical" android:padding="10dp">
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Email:" />
+
+    <EditText
+        android:id="@+id/emailIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="johndoe@example.com" />
+
+    <TextView
+        android:id="@+id/passwordLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Password:" />
+
+    <EditText
+        android:id="@+id/passIn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/firstNameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input First Name:" />
+
+    <EditText
+        android:id="@+id/fnameIn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="John" />
+
+    <TextView
+        android:id="@+id/lastNameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input Last Name" />
+
+    <EditText
+        android:id="@+id/lnameIn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Doe" />
+</LinearLayout>
