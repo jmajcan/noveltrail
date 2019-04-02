@@ -133,6 +133,7 @@ public class MyBooksActivity extends AppCompatActivity
                     newBookAlert.show();
                 }
             });
+
         }
         private void initializeAdapter(){
             MyBooksAdapter adapter = new MyBooksAdapter(books, getApplicationContext());
@@ -173,6 +174,7 @@ public class MyBooksActivity extends AppCompatActivity
 
             return books;
         }
+
 
         @Override
         public void onBackPressed() {
@@ -224,6 +226,9 @@ public class MyBooksActivity extends AppCompatActivity
                 startActivity(intent);
             } else if (id == R.id.nav_settings) {
                 intent = new Intent(this,SettingsActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_data){
+                intent = new Intent(this,DataActivity.class);
                 startActivity(intent);
             }
 
