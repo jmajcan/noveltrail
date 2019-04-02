@@ -1,0 +1,4 @@
+<resources>
+    <string name="title_activity_data">My Data</string>
+    <string name="data_text">My Data!</string>
+</resources>
