@@ -21,6 +21,11 @@
             android:textSize="20sp"
             android:padding="10dp"
             android:text="Currently Reading"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="10dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvView"

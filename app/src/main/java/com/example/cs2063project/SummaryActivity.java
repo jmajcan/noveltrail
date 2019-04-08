@@ -127,7 +127,7 @@ public class SummaryActivity extends AppCompatActivity
     }
 
     private void initializeAdapter(){
-        MyBooksAdapter adapter = new MyBooksAdapter(currentlyReading, getApplicationContext());
+        SummaryAdapter adapter = new SummaryAdapter(currentlyReading, getApplicationContext());
         rv.setAdapter(adapter);
     }
 
