@@ -52,7 +52,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 inputFirst.setInputType(InputType.TYPE_CLASS_TEXT);
                 inputLast.setInputType(InputType.TYPE_CLASS_TEXT);
                 inputEmail.setInputType(InputType.TYPE_CLASS_TEXT);
-                inputPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                inputPass.setInputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
                 registerUser.setView(newUserDialog);
                 registerUser.setCancelable(true);

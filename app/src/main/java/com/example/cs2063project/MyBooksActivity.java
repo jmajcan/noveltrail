@@ -136,9 +136,9 @@ public class MyBooksActivity extends AppCompatActivity
 
         }
         private void initializeAdapter(){
-            MyBooksAdapter adapter = new MyBooksAdapter(books, getApplicationContext());
-            rv.setAdapter(adapter);
-        }
+        MyBooksAdapter adapter = new MyBooksAdapter(books, getApplicationContext());
+        rv.setAdapter(adapter);
+    }
 
         private void saveData(ArrayList<Book> books){
             String filename = "bookStorage";
