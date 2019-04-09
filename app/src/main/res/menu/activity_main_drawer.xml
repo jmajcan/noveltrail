@@ -22,7 +22,7 @@
             android:title="Settings" />
         <item
             android:id="@+id/nav_data"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/data_icon"
             android:title="Data" />
     </group>
 
